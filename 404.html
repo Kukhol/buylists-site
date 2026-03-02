@@ -1,13 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BuyLists</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Prevent blank preview -->
+  <meta charset="UTF-8">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 80px;
+      background-color: #f7f7f7;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2>Opening BuyLists...</h2>
+<p>If nothing happens, redirecting to Play Store.</p>
+
 <script>
-  const pathParts = window.location.pathname.split("/");
-  const listId = pathParts[pathParts.length - 1];
+  // Get path like /BL7611DF
+  const path = window.location.pathname.replace("/", "");
 
-  // Open BuyLists app correctly
-  window.location.href = "buylists://" + listId;
+  // Try opening BuyLists app
+  window.location.href = "buylists://" + path;
 
-  // Fallback to Play Store
+  // If app not installed → open Play Store homepage (temporary)
   setTimeout(function () {
-    window.location.href =
-      "https://play.google.com/store";
+    window.location.href = "https://play.google.com/store";
   }, 1500);
 </script>
+
+</body>
+</html>
