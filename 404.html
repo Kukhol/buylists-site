@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Opening BuyLists...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+
+<body style="font-family: Arial; text-align:center; margin-top:80px;">
+<h2>Opening BuyLists...</h2>
+<p>If nothing happens, redirecting to Play Store.</p>
+
+<script>
+  const path = window.location.pathname.replace("/", "");
+
+  // Try opening app with list ID
+  window.location.href = "buylists://" + path;
+
+  // Fallback → Play Store
+  setTimeout(function () {
+    window.location.href =
+      "https://play.google.com/store";
+  }, 1500);
+</script>
+
+</body>
+</html>
