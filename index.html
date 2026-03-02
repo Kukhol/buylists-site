@@ -2,16 +2,15 @@
 <html>
 <head>
   <title>BuyLists</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <script>
     const path = window.location.pathname.replace("/", "");
 
-    // Try opening BuyLists app
+    // Try opening app
     window.location.href = "buylists://" + path;
 
-    // If app not installed → Play Store
-    setTimeout(function () {
+    // Fallback → Play Store
+    setTimeout(() => {
       window.location.href =
         "https://play.google.com/store/apps/details?id=com.example.buylists";
     }, 1500);
@@ -19,6 +18,6 @@
 </head>
 
 <body>
-  <h2>Opening BuyLists...</h2>
+  Opening BuyLists...
 </body>
 </html>
