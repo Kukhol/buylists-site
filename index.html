@@ -3,21 +3,38 @@
 <head>
   <title>BuyLists</title>
 
-  <script>
-    const path = window.location.pathname.replace("/", "");
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    // Try opening app
-    window.location.href = "buylists://" + path;
+  <!-- Prevent blank preview -->
+  <meta charset="UTF-8">
 
-    // Fallback → Play Store
-    setTimeout(() => {
-      window.location.href =
-        "https://play.google.com/store/apps/details?id=com.example.buylists";
-    }, 1500);
-  </script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 80px;
+      background-color: #f7f7f7;
+    }
+  </style>
 </head>
 
 <body>
-  Opening BuyLists...
+
+<h2>Opening BuyLists...</h2>
+<p>If nothing happens, redirecting to Play Store.</p>
+
+<script>
+  // Get path like /BL7611DF
+  const path = window.location.pathname.replace("/", "");
+
+  // Try opening BuyLists app
+  window.location.href = "buylists://" + path;
+
+  // If app not installed → open Play Store homepage (temporary)
+  setTimeout(function () {
+    window.location.href = "https://play.google.com/store";
+  }, 1500);
+</script>
+
 </body>
 </html>
