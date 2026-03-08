@@ -1,100 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Open BuyLists</title>
+<title>BuyLists</title>
 
 <style>
-
 body{
-margin:0;
-padding:0;
-font-family:sans-serif;
-background:#0e1a1c;
+font-family: Arial;
+background:#071c1d;
 color:white;
 display:flex;
-flex-direction:column;
 align-items:center;
 justify-content:center;
 height:100vh;
 text-align:center;
+margin:0;
 }
 
-h1{
-font-size:28px;
-margin-bottom:10px;
+.container{
+max-width:400px;
 }
 
-p{
-color:#b5c7c8;
-margin-bottom:30px;
-}
-
-.button{
-display:inline-block;
+button{
+background:#2fd0c7;
+border:none;
 padding:16px 28px;
-background:#1ed3c6;
-color:black;
-font-weight:bold;
-border-radius:12px;
-text-decoration:none;
-font-size:16px;
+font-size:18px;
+border-radius:10px;
+cursor:pointer;
+margin-top:20px;
 }
-
-.button:hover{
-opacity:0.9;
-}
-
-.small{
-margin-top:25px;
-font-size:14px;
-color:#8aa0a1;
-}
-
 </style>
 </head>
 
-
 <body>
+
+<div class="container">
 
 <h1>Open BuyLists</h1>
 
 <p>Tap below to open the shared grocery list.</p>
 
-<a id="openApp" class="button" href="#">
-Open in BuyLists
-</a>
+<button onclick="openApp()">Open in BuyLists</button>
 
-<p class="small">
+<p style="margin-top:30px;color:#9ca3af;">
 If the app is not installed, you will be redirected to download it.
 </p>
 
+</div>
+
 <script>
 
-// Extract list ID from URL
-var listId = window.location.pathname.split("/").pop();
+// get list id from URL
+var path = window.location.pathname;
+var listId = path.split("/").pop();
 
-// When user taps button → open the app
-document.getElementById("openApp").onclick = function(){
+function openApp(){
 
+// open the app
 window.location.href = "buylists://list/" + listId;
 
-};
-
-
-// Play Store fallback after delay
+// fallback to Play Store
 setTimeout(function(){
-
 window.location.href =
 "https://play.google.com/store/apps/details?id=com.example.buylists";
+},2000);
 
-},4000);
+}
 
 </script>
-
 
 </body>
 </html>
