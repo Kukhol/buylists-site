@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
-<head>
 
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -27,38 +27,32 @@ padding:20px;
 }
 
 h1{
-font-size:34px;
+font-size:32px;
 margin-bottom:10px;
 }
 
 .subtitle{
-color:#a8b3b3;
+color:#9fb0b0;
 margin-bottom:30px;
 }
 
 button{
 background:#2fd0c7;
 border:none;
-padding:16px 32px;
+padding:16px 30px;
 font-size:18px;
 border-radius:12px;
 cursor:pointer;
-color:black;
 font-weight:bold;
 }
 
-button:active{
-transform:scale(0.96);
-}
-
 .note{
-margin-top:28px;
+margin-top:30px;
 font-size:14px;
-color:#8fa3a3;
+color:#8ea3a3;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -83,25 +77,27 @@ If the app is not installed, you will be redirected to download it.
 
 <script>
 
-// Extract list ID from URL
-var pathParts = window.location.pathname.split("/");
+// Get URL path
+var path = window.location.pathname;
 
-// Example URL
+// Example
 // /buylists-site/BL7611DF
 
-var listId = pathParts[pathParts.length - 1];
+var segments = path.split("/");
 
-// If path ends with index.html or empty
-if(listId === "" || listId === "index.html"){
-listId = pathParts[pathParts.length - 2];
+// Last segment = list id
+var listId = segments[segments.length - 1];
+
+// If URL ends with /
+if(listId === ""){
+listId = segments[segments.length - 2];
 }
 
 function openApp(){
 
-// Open BuyLists app
 window.location.href = "buylists://list/" + listId;
 
-// Fallback to Play Store after delay
+// fallback to Play Store
 setTimeout(function(){
 
 window.location.href =
@@ -114,4 +110,5 @@ window.location.href =
 </script>
 
 </body>
+
 </html>
