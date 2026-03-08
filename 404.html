@@ -1,39 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>BuyLists</title>
+<meta charset="UTF-8">
+<title>Open BuyLists</title>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{
+font-family:sans-serif;
+background:#0e1a1c;
+color:white;
+text-align:center;
+padding-top:80px;
+}
 
-  <!-- Prevent blank preview -->
-  <meta charset="UTF-8">
+.button{
+display:inline-block;
+padding:16px 28px;
+background:#1ed3c6;
+color:black;
+font-weight:bold;
+border-radius:10px;
+text-decoration:none;
+margin-top:30px;
+}
+</style>
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding-top: 80px;
-      background-color: #f7f7f7;
-    }
-  </style>
 </head>
 
 <body>
 
-<h2>Opening BuyLists...</h2>
-<p>If nothing happens, redirecting to Play Store.</p>
+<h2>Open BuyLists</h2>
+
+<p>Tap below to open the shared grocery list.</p>
+
+<a id="openApp" class="button">Open in BuyLists</a>
 
 <script>
-  // Get path like /BL7611DF
-  const path = window.location.pathname.replace("/", "");
+var listId = window.location.pathname.split("/").pop();
 
-  // Try opening BuyLists app
-  window.location.href = "buylists://" + path;
+document.getElementById("openApp").href =
+"buylists://list/" + listId;
 
-  // If app not installed → open Play Store homepage (temporary)
-  setTimeout(function () {
-    window.location.href = "https://play.google.com/store";
-  }, 1500);
+setTimeout(function(){
+window.location.href =
+"https://play.google.com/store/apps/details?id=com.example.buylists";
+},3000);
 </script>
 
 </body>
