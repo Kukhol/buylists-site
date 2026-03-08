@@ -1,16 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Open BuyLists</title>
 
 <style>
+
 body{
+margin:0;
+padding:0;
 font-family:sans-serif;
 background:#0e1a1c;
 color:white;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+height:100vh;
 text-align:center;
-padding-top:80px;
+}
+
+h1{
+font-size:28px;
+margin-bottom:10px;
+}
+
+p{
+color:#b5c7c8;
+margin-bottom:30px;
 }
 
 .button{
@@ -19,33 +39,62 @@ padding:16px 28px;
 background:#1ed3c6;
 color:black;
 font-weight:bold;
-border-radius:10px;
+border-radius:12px;
 text-decoration:none;
-margin-top:30px;
+font-size:16px;
 }
-</style>
 
+.button:hover{
+opacity:0.9;
+}
+
+.small{
+margin-top:25px;
+font-size:14px;
+color:#8aa0a1;
+}
+
+</style>
 </head>
+
 
 <body>
 
-<h2>Open BuyLists</h2>
+<h1>Open BuyLists</h1>
 
 <p>Tap below to open the shared grocery list.</p>
 
-<a id="openApp" class="button">Open in BuyLists</a>
+<a id="openApp" class="button" href="#">
+Open in BuyLists
+</a>
+
+<p class="small">
+If the app is not installed, you will be redirected to download it.
+</p>
 
 <script>
+
+// Extract list ID from URL
 var listId = window.location.pathname.split("/").pop();
 
-document.getElementById("openApp").href =
-"buylists://list/" + listId;
+// When user taps button → open the app
+document.getElementById("openApp").onclick = function(){
 
+window.location.href = "buylists://list/" + listId;
+
+};
+
+
+// Play Store fallback after delay
 setTimeout(function(){
+
 window.location.href =
 "https://play.google.com/store/apps/details?id=com.example.buylists";
-},3000);
+
+},4000);
+
 </script>
+
 
 </body>
 </html>
