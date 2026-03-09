@@ -1,114 +1,31 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>BuyLists</title>
-
-<style>
-
-body{
-margin:0;
-font-family:Arial, Helvetica, sans-serif;
-background:#071c1d;
-color:white;
-display:flex;
-align-items:center;
-justify-content:center;
-height:100vh;
-text-align:center;
-}
-
-.container{
-max-width:420px;
-padding:20px;
-}
-
-h1{
-font-size:32px;
-margin-bottom:10px;
-}
-
-.subtitle{
-color:#9fb0b0;
-margin-bottom:30px;
-}
-
-button{
-background:#2fd0c7;
-border:none;
-padding:16px 30px;
-font-size:18px;
-border-radius:12px;
-cursor:pointer;
-font-weight:bold;
-}
-
-.note{
-margin-top:30px;
-font-size:14px;
-color:#8ea3a3;
-}
-
-</style>
+<title>Open BuyLists</title>
 </head>
 
 <body>
 
-<div class="container">
+<h2>Open BuyLists</h2>
 
-<h1>Open BuyLists</h1>
-
-<div class="subtitle">
-Tap below to open the shared grocery list.
-</div>
-
-<button onclick="openApp()">
-Open in BuyLists
-</button>
-
-<div class="note">
-If the app is not installed, you will be redirected to download it.
-</div>
-
-</div>
+<button onclick="openApp()">Open in BuyLists</button>
 
 <script>
 
-// Get URL path
-var path = window.location.pathname;
+function openApp() {
 
-// Example
-// /buylists-site/BL7611DF
+  const path = window.location.pathname;
 
-var segments = path.split("/");
+  const listId = path.split("/").pop();
 
-// Last segment = list id
-var listId = segments[segments.length - 1];
+  const deepLink = "buylists://list/" + listId;
 
-// If URL ends with /
-if(listId === ""){
-listId = segments[segments.length - 2];
-}
-
-function openApp(){
-
-window.location.href = "buylists://list/" + listId;
-
-// fallback to Play Store
-setTimeout(function(){
-
-window.location.href =
-"https://play.google.com/store/apps/details?id=com.example.buylists";
-
-},2000);
+  window.location.href = deepLink;
 
 }
 
 </script>
 
 </body>
-
 </html>
