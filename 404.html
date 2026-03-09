@@ -2,10 +2,30 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="0; url=/buylists-site/index.html">
+<title>Open BuyLists</title>
 </head>
 
 <body>
-Redirecting...
+
+<h2>Open BuyLists</h2>
+
+<button onclick="openApp()">Open in BuyLists</button>
+
+<script>
+
+function openApp() {
+
+  const path = window.location.pathname;
+
+  const listId = path.split("/").pop();
+
+  const deepLink = "buylists://list/" + listId;
+
+  window.location.href = deepLink;
+
+}
+
+</script>
+
 </body>
 </html>
