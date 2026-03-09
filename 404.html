@@ -19,9 +19,11 @@ function openApp() {
 
   const listId = path.split("/").pop();
 
-  const deepLink = "buylists://list/" + listId;
+  if(listId && listId !== "index.html") {
 
-  window.location.href = deepLink;
+    window.location.href = "buylists://list/" + listId;
+
+  }
 
 }
 
