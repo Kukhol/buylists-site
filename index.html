@@ -12,22 +12,12 @@
 <button onclick="openApp()">Open in BuyLists</button>
 
 <script>
+const path = window.location.pathname;
+const listId = path.split("/").pop();
 
-function openApp() {
+const deepLink = "buylists://list/" + listId;
 
-  const path = window.location.pathname;
-
-  const listId = path.split("/").pop();
-
-  if(listId && listId !== "index.html") {
-
-    window.location.href = "buylists://list/" + listId;
-
-  }
-
-}
-
+window.location.href = deepLink;
 </script>
-
 </body>
 </html>
