@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
   <script>
-    // Redirect all routes to index.html while preserving path
-    const path = window.location.pathname;
-    const search = window.location.search;
+    // Redirect ANY unknown route to /list/index.html
+    var path = window.location.pathname;
 
-    window.location.replace(
-      '/buylists-site/list/index.html?redirect=' + encodeURIComponent(path + search)
-    );
+    // Only handle /list/*
+    if (path.startsWith('/buylists-site/list/')) {
+      var newUrl = '/buylists-site/list/index.html?path=' + encodeURIComponent(path);
+      window.location.replace(newUrl);
+    }
   </script>
+</head>
+<body></body>
+</html>
 </head>
 <body></body>
 </html>
