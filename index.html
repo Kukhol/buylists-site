@@ -6,51 +6,37 @@
 <head>
   <meta charset="utf-8">
   <script>
-function extractListId() {
+function openApp() {
     const params = new URLSearchParams(window.location.search);
-    const redirectPath = params.get('path');
 
-    let path = redirectPath || window.location.pathname;
+    let path = params.get('path');
 
-    // Normalize path
-    path = path.replace(/\/+$/, ''); // remove trailing slash
-
-    const parts = path.split('/');
-
-    // Find 'list' and take next segment
-    const listIndex = parts.indexOf('list');
-
-    if (listIndex !== -1 && parts.length > listIndex + 1) {
-        return parts[listIndex + 1];
+    // If coming from 404 redirect
+    if (path) {
+        const parts = path.split('/');
+        var listId = parts[parts.length - 1];
+    } else {
+        // Normal direct open
+        const parts = window.location.pathname.split('/');
+        var listId = parts[parts.length - 1];
     }
 
-    return null;
-}
-
-function openApp() {
-    const listId = extractListId();
-
-    if (!listId) {
-        console.error("Invalid list ID");
+    // Safety fallback
+    if (!listId || listId === 'index.html') {
+        document.body.innerHTML = "<h2>Invalid link</h2>";
         return;
     }
 
-    const appUrl = buylists://list/${listId};
-
-    console.log("Opening:", appUrl);
+    const appUrl = "buylists://list/" + listId;
 
     window.location.href = appUrl;
 
-    // Fallback
     setTimeout(() => {
         window.location.href = "https://play.google.com/store/apps/details?id=com.kukholapps.buylists";
     }, 1500);
 }
 
-// Auto-open
-window.onload = function () {
-    openApp();
-};
+window.onload = openApp;
 </script>
 </head>
 <body></body>
