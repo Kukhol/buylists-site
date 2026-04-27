@@ -3,10 +3,9 @@
 <head>
   <meta charset="utf-8">
   <script>
-    // Redirect ANY unknown route to /list/index.html
     var path = window.location.pathname;
 
-    // Only handle /list/*
+    // Only redirect list routes
     if (path.startsWith('/buylists-site/list/')) {
       var newUrl = '/buylists-site/list/index.html?path=' + encodeURIComponent(path);
       window.location.replace(newUrl);
