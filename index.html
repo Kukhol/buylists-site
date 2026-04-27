@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>BuyLists</title>
+  <script>
+    // Redirect all routes to index.html while preserving path
+    const path = window.location.pathname;
+    const search = window.location.search;
+
+    window.location.replace(
+      '/buylists-site/list/index.html?redirect=' + encodeURIComponent(path + search)
+    );
+  </script>
 </head>
-<body style="font-family: sans-serif; text-align:center; margin-top:50px;">
-  <h2>BuyLists Sharing Ready ✅</h2>
-  <p>This is the root page.</p>
-</body>
+<body></body>
 </html>
