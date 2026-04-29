@@ -1,45 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Opening BuyLists...</title>
-
-  <script>
-  function openApp() {
-    const path = window.location.pathname;
-    const segments = path.split('/');
-    const id = segments[segments.length - 1];
-
-    if (!id) return;
-
-    const deepLink = "buylists://list/" + id;
-
-    // Try opening app
-    window.location.href = deepLink;
-
-    // Fallback to Play Store after delay
-    setTimeout(() => {
-      window.location.href = "https://play.google.com/store/apps/details?id=com.kukholapps.buylists";
-    }, 1500);
-  }
-
-  window.onload = openApp;
-</script>
-    window.onload = openApp;
-  </script>
+  <meta charset="UTF-8" />
+  <title>BuyLists</title>
 </head>
-
-<body style="font-family:sans-serif;text-align:center;margin-top:100px;">
-  <h2>Opening your list...</h2>
-  <p>If nothing happens, <a id="manual">tap here</a></p>
-
+<body>
   <script>
-    const path = window.location.pathname;
-    const segments = path.split('/').filter(Boolean);
-    const listId = segments[segments.length - 1];
-
-    document.getElementById("manual").href =
-      "buylists://list/" + listId;
+    // Fallback: if user opens base URL
+    window.location.href = "https://play.google.com/store/apps/details?id=com.kukholapps.buylists";
   </script>
 </body>
 </html>
