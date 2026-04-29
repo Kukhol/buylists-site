@@ -1,22 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <script>
-  const path = window.location.pathname;
-
-  // Extract list ID
-  const segments = path.split('/').filter(Boolean);
-  const listId = segments[segments.length - 1];
-
-  if (listId && listId !== 'index.html') {
-    // Redirect to app with ID
-    window.location.href = buylists://list/${listId};
-  } else {
-    // fallback
-    window.location.href = "/";
-  }
-</script>
+  <meta charset="UTF-8" />
+  <title>Redirecting...</title>
 </head>
-<body></body>
+<body>
+<script>
+(function () {
+  try {
+    let listId = null;
+
+    // Example: /list/ABC123
+    const segments = window.location.pathname.split('/').filter(Boolean);
+
+    // Expect: ["buylists-site", "list", "ABC123"]
+    if (segments.length >= 2) {
+      listId = segments[segments.length - 1];
+    }
+
+    // Fallback: ?path=/list/ABC123
+    if (!listId) {
+      const params = new URLSearchParams(window.location.search);
+      const path = params.get("path");
+
+      if (path) {
+        const parts = path.split('/').filter(Boolean);
+        listId = parts[parts.length - 1];
+      }
+    }
+
+    // Final validation
+    if (!listId || listId === "index.html" || listId === "list") {
+      window.location.replace("/");
+      return;
+    }
+
+    // 🚀 Redirect to app
+    window.location.replace("buylists://list/" + listId);
+
+  } catch (e) {
+    window.location.replace("/");
+  }
+})();
+</script>
+</body>
 </html>
