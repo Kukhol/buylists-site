@@ -1,47 +1,964 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <title>Redirecting...</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta property="og:title" content="BuyLists - Shared Shopping List" />
+    <meta property="og:description" content="View items and prices shared via BuyLists." />
+    <title>BuyLists - Shared Shopping List</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(22, 30, 46, 0.75);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-green: #10b981;
+            --accent-green-bg: rgba(16, 185, 129, 0.12);
+            --accent-blue: #3b82f6;
+            --divider: rgba(255, 255, 255, 0.08);
+            --item-bg: rgba(30, 41, 59, 0.5);
+            --radius-lg: 20px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.12) 0%, transparent 40%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px;
+        }
+
+        .app-shell {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Brand Top Navigation Bar */
+        .brand-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .brand-title {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: var(--text-primary);
+        }
+
+        .brand-tag {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--accent-green);
+            background: var(--accent-green-bg);
+            padding: 4px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Main Glass Card */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
+        }
+
+        /* Header Details */
+        .list-header {
+            margin-bottom: 16px;
+        }
+
+        .list-category-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 4px;
+        }
+
+        .list-category-title {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.4px;
+            color: var(--text-primary);
+            word-break: break-word;
+        }
+
+        .list-meta {
+            font-size: 13px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: var(--divider);
+            margin: 16px 0;
+        }
+
+        /* Total Summary Banner */
+        .total-summary-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .total-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .total-item-count {
+            font-size: 12px;
+            color: var(--accent-green);
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .total-amount {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--accent-green);
+            letter-spacing: -0.5px;
+        }
+
+        /* Items Section */
+        .items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .item-row {
+            background: var(--item-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-md);
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            transition: background 0.2s ease, opacity 0.2s ease;
+        }
+
+        .item-details {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .item-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .item-subtext {
+            font-size: 12px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .item-badge {
+            background: rgba(255, 255, 255, 0.06);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .item-price {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        /* Interactive Shutter Controls */
+        .shutter-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px dashed var(--divider);
+        }
+
+        .shutter-badge {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent-green);
+            background: var(--accent-green-bg);
+            padding: 4px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.3px;
+        }
+
+        .shutter-btn {
+            width: 100%;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(16, 185, 129, 0.15) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: var(--text-primary);
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .shutter-btn:hover {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.25) 0%, rgba(16, 185, 129, 0.25) 100%);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .shutter-btn:active {
+            transform: translateY(0);
+            opacity: 0.9;
+        }
+
+        /* Action Buttons Bar (Phase 1C) */
+        .action-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--divider);
+        }
+
+        .action-btn {
+            flex: 1;
+            min-width: 120px;
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+            padding: 12px 14px;
+            border-radius: var(--radius-md);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn:hover {
+            background: rgba(51, 65, 85, 0.8);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .action-btn:active {
+            transform: translateY(0);
+            opacity: 0.85;
+        }
+
+        .action-btn-primary {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border: none;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .action-btn-primary:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        }
+
+        /* Toast Message Feedback */
+        .toast-msg {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: #10b981;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 9999;
+        }
+
+        .toast-msg.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Footer Branding */
+        .footer-note {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 12px;
+        }
+
+        /* Loading Skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75%);
+            background-size: 200% 100%;
+            animation: skeleton-glow 1.5s infinite;
+            border-radius: var(--radius-sm);
+        }
+
+        @keyframes skeleton-glow {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .skeleton-title { height: 24px; width: 60%; margin-bottom: 8px; }
+        .skeleton-sub { height: 14px; width: 35%; margin-bottom: 16px; }
+        .skeleton-total { height: 56px; width: 100%; margin-bottom: 16px; border-radius: var(--radius-md); }
+        .skeleton-row { height: 52px; width: 100%; margin-bottom: 10px; border-radius: var(--radius-md); }
+
+        /* Error Container */
+        .error-card {
+            text-align: center;
+            padding: 32px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .error-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(239, 68, 68, 0.12);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: #ef4444;
+        }
+
+        .error-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .error-msg {
+            font-size: 13px;
+            color: var(--text-secondary);
+            max-width: 280px;
+            line-height: 1.5;
+        }
+
+        .retry-btn {
+            margin-top: 8px;
+            background: var(--accent-blue);
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+
+        .retry-btn:active {
+            opacity: 0.8;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
 </head>
+
 <body>
-<script>
-(function () {
-  try {
-    let listId = null;
+    <div class="app-shell">
+        <!-- Brand Header -->
+        <header class="brand-header">
+            <div class="brand-logo">
+                <div class="logo-icon">🛒</div>
+                <span class="brand-title">BuyLists</span>
+            </div>
+            <span class="brand-tag">Shared List</span>
+        </header>
 
-    // Example: /list/ABC123
-    const segments = window.location.pathname.split('/').filter(Boolean);
+        <!-- Main Card Container -->
+        <main id="main-card" class="glass-card">
+            <!-- Skeleton Loader -->
+            <div id="loading-state">
+                <div class="skeleton skeleton-title"></div>
+                <div class="skeleton skeleton-sub"></div>
+                <div class="skeleton skeleton-total"></div>
+                <div class="skeleton skeleton-row"></div>
+                <div class="skeleton skeleton-row"></div>
+                <div class="skeleton skeleton-row"></div>
+            </div>
 
-    // Expect: ["buylists-site", "list", "ABC123"]
-    if (segments.length >= 2) {
-      listId = segments[segments.length - 1];
-    }
+            <!-- Content Area (Rendered via JS) -->
+            <div id="content-state" class="hidden">
+                <div class="list-header">
+                    <div class="list-category-row">
+                        <h1 id="list-title" class="list-category-title">Shared List</h1>
+                    </div>
+                    <div class="list-meta">
+                        <span id="shared-by-label">Shared list</span>
+                        <span>•</span>
+                        <span id="date-label">Today</span>
+                    </div>
+                </div>
 
-    // Fallback: ?path=/list/ABC123
-    if (!listId) {
-      const params = new URLSearchParams(window.location.search);
-      const path = params.get("path");
+                <!-- Total Banner -->
+                <div class="total-summary-card">
+                    <div>
+                        <div class="total-label">Estimated Total</div>
+                        <div id="total-count-badge" class="total-item-count">0 items</div>
+                    </div>
+                    <div id="total-amount" class="total-amount">0.00</div>
+                </div>
 
-      if (path) {
-        const parts = path.split('/').filter(Boolean);
-        listId = parts[parts.length - 1];
-      }
-    }
+                <div class="divider"></div>
 
-    // Final validation
-    if (!listId || listId === "index.html" || listId === "list") {
-      window.location.replace("/");
-      return;
-    }
+                <!-- Items Container -->
+                <div id="items-list" class="items-list">
+                    <!-- Item rows dynamically injected here -->
+                </div>
 
-    // 🚀 Redirect to app
-    window.location.replace("buylists://list/" + listId);
+                <!-- Shutter Control Container -->
+                <div id="shutter-controls" class="shutter-controls hidden">
+                    <div id="shutter-badge" class="shutter-badge">+ 0 more items</div>
+                    <button id="shutter-toggle-btn" class="shutter-btn" onclick="toggleShutter()">
+                        <span id="shutter-icon">▼</span>
+                        <span id="shutter-label">SHOW ALL ITEMS</span>
+                    </button>
+                </div>
 
-  } catch (e) {
-    window.location.replace("/");
-  }
-})();
-</script>
+                <!-- Action Bar Container (Phase 1C) -->
+                <div class="action-bar">
+                    <button class="action-btn" onclick="copyListToClipboard()">
+                        <span>📋</span> Copy List
+                    </button>
+                    <button class="action-btn" onclick="openInApp()">
+                        <span>📱</span> Open in App
+                    </button>
+                    <button class="action-btn action-btn-primary" onclick="getAppStore()">
+                        <span>⬇</span> Get BuyLists
+                    </button>
+                </div>
+            </div>
+
+            <!-- Error State Container -->
+            <div id="error-state" class="error-card hidden">
+                <div class="error-icon">⚠️</div>
+                <div id="error-title" class="error-title">List Not Found</div>
+                <div id="error-msg" class="error-msg">This shared list link may have expired or is invalid.</div>
+                <button class="retry-btn" onclick="window.location.reload()">Retry</button>
+            </div>
+        </main>
+
+        <footer class="footer-note">
+            BuyLists • Smart shopping. Zero forgetting.
+        </footer>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast-msg">✓ Copied to clipboard!</div>
+
+    <script>
+        // Global State & Constants
+        let isExpanded = false;
+        let rawListDataForCopy = null;
+        let currentListId = null;
+        const PREVIEW_LIMIT = 3;
+
+        // Currency Symbol Dictionary (Phase 2B)
+        const CURRENCY_SYMBOLS = {
+            'INR': '₹',
+            'USD': '$',
+            'EUR': '€',
+            'GBP': '£',
+            'JPY': '¥',
+            'AUD': 'A$',
+            'CAD': 'C$',
+            'CHF': 'CHF ',
+            'AED': 'AED '
+        };
+
+        function getCurrencySymbol(code) {
+            if (!code) return '';
+            const upper = code.toString().toUpperCase().trim();
+            return CURRENCY_SYMBOLS[upper] || '';
+        }
+
+        (function () {
+            // 1. Extract List ID from URL
+            function getListId() {
+                const pathSegments = window.location.pathname.split('/').filter(Boolean);
+                if (pathSegments.length >= 2) {
+                    const last = pathSegments[pathSegments.length - 1];
+                    if (last && last !== 'list' && last !== 'index.html') {
+                        return last;
+                    }
+                }
+
+                const params = new URLSearchParams(window.location.search);
+                if (params.has('id')) return params.get('id');
+                if (params.has('listId')) return params.get('listId');
+                
+                const path = params.get('path');
+                if (path) {
+                    const segments = path.split('/').filter(Boolean);
+                    if (segments.length >= 1) {
+                        const last = segments[segments.length - 1];
+                        if (last && last !== 'list' && last !== 'index.html') {
+                            return last;
+                        }
+                    }
+                }
+                return null;
+            }
+
+            currentListId = getListId();
+
+            // 2. Safe Non-Blocking Background App Launch
+            if (currentListId) {
+                const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+                if (isMobile) {
+                    try {
+                        const iframe = document.createElement('iframe');
+                        iframe.style.display = 'none';
+                        iframe.src = `buylists://list/${currentListId}`;
+                        document.body.appendChild(iframe);
+                        setTimeout(() => {
+                            if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+                        }, 1000);
+                    } catch (_) {
+                        // Silent fallback to Web Viewer
+                    }
+                }
+            } else {
+                showError("Invalid Link", "The shared list URL appears to be incomplete or missing an ID.");
+                return;
+            }
+
+            // 3. Firestore REST API Parser
+            function parseFirestoreValue(val) {
+                if (!val) return null;
+                if ('stringValue' in val) return val.stringValue;
+                if ('integerValue' in val) return parseInt(val.integerValue, 10);
+                if ('doubleValue' in val) return parseFloat(val.doubleValue);
+                if ('booleanValue' in val) return val.booleanValue;
+                if ('arrayValue' in val) {
+                    return (val.arrayValue.values || []).map(parseFirestoreValue);
+                }
+                if ('mapValue' in val) {
+                    const res = {};
+                    const fields = val.mapValue.fields || {};
+                    for (const k in fields) {
+                        res[k] = parseFirestoreValue(fields[k]);
+                    }
+                    return res;
+                }
+                return null;
+            }
+
+            function parseFirestoreDoc(data) {
+                if (!data || !data.fields) return null;
+                const result = {};
+                for (const k in data.fields) {
+                    result[k] = parseFirestoreValue(data.fields[k]);
+                }
+                return result;
+            }
+
+            // 4. Formatting Helpers
+            function formatDate(isoOrTs) {
+                if (!isoOrTs) return 'Recently shared';
+                try {
+                    let d;
+                    if (typeof isoOrTs === 'number') {
+                        d = new Date(isoOrTs);
+                    } else {
+                        d = new Date(isoOrTs);
+                    }
+                    if (isNaN(d.getTime())) return 'Recently shared';
+                    
+                    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                    return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+                } catch (_) {
+                    return 'Recently shared';
+                }
+            }
+
+            function formatNumber(num) {
+                return (num || 0).toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            }
+
+            // Make formatNumber globally accessible for copy handler
+            window.formatNumber = formatNumber;
+
+            // 5. Render States
+            function showError(title, message) {
+                document.getElementById('loading-state').classList.add('hidden');
+                document.getElementById('content-state').classList.add('hidden');
+                
+                document.getElementById('error-title').textContent = title || "List Not Found";
+                document.getElementById('error-msg').textContent = message || "Unable to fetch list details.";
+                document.getElementById('error-state').classList.remove('hidden');
+            }
+
+            function renderList(listData) {
+                rawListDataForCopy = listData;
+
+                const category = listData.name || listData.category || "Shared Shopping List";
+                const sharedBy = listData.sharedBy ? `Shared by ${listData.sharedBy}` : "Shared list";
+                const dateText = formatDate(listData.createdAt || listData.timestamp);
+                const items = Array.isArray(listData.items) ? listData.items : [];
+                const currencySymbol = getCurrencySymbol(listData.currencyCode);
+
+                // Calculate Totals
+                let calculatedTotal = 0;
+                items.forEach(item => {
+                    const price = parseFloat(item.price) || 0;
+                    const qty = parseFloat(item.quantity || item.qty) || 1;
+                    calculatedTotal += (price * qty);
+                });
+
+                // Set Header Values securely
+                document.getElementById('list-title').textContent = category;
+                document.getElementById('shared-by-label').textContent = sharedBy;
+                document.getElementById('date-label').textContent = dateText;
+                document.getElementById('total-count-badge').textContent = `${items.length} item${items.length === 1 ? '' : 's'}`;
+                document.getElementById('total-amount').textContent = `${currencySymbol}${formatNumber(calculatedTotal)}`;
+
+                // Render Items
+                const itemsContainer = document.getElementById('items-list');
+                itemsContainer.innerHTML = '';
+
+                if (items.length === 0) {
+                    itemsContainer.innerHTML = '<div style="text-align:center; padding: 20px; color: var(--text-muted); font-size:14px;">This list is empty.</div>';
+                    document.getElementById('shutter-controls').classList.add('hidden');
+                } else {
+                    items.forEach((item, index) => {
+                        const name = item.name || item.title || 'Item';
+                        const qty = parseFloat(item.quantity || item.qty) || 1;
+                        const unit = item.unit ? ` ${item.unit}` : '';
+                        const price = parseFloat(item.price) || 0;
+                        const itemTotal = price * qty;
+                        const itemCategory = item.category && item.category !== 'General' ? item.category : null;
+
+                        const row = document.createElement('div');
+                        row.className = 'item-row';
+                        
+                        // Apply shutter threshold hiding
+                        if (index >= PREVIEW_LIMIT) {
+                            row.classList.add('shutter-item', 'hidden');
+                        }
+
+                        const details = document.createElement('div');
+                        details.className = 'item-details';
+
+                        const nameEl = document.createElement('div');
+                        nameEl.className = 'item-name';
+                        nameEl.textContent = name;
+                        details.appendChild(nameEl);
+
+                        const subtext = document.createElement('div');
+                        subtext.className = 'item-subtext';
+
+                        const qtyBadge = document.createElement('span');
+                        qtyBadge.className = 'item-badge';
+                        qtyBadge.textContent = `${qty}${unit}`;
+                        subtext.appendChild(qtyBadge);
+
+                        if (itemCategory) {
+                            const catBadge = document.createElement('span');
+                            catBadge.className = 'item-badge';
+                            catBadge.textContent = itemCategory;
+                            subtext.appendChild(catBadge);
+                        }
+
+                        if (price > 0) {
+                            const priceUnit = document.createElement('span');
+                            priceUnit.textContent = `(${currencySymbol}${formatNumber(price)}/unit)`;
+                            subtext.appendChild(priceUnit);
+                        }
+
+                        details.appendChild(subtext);
+                        row.appendChild(details);
+
+                        const priceEl = document.createElement('div');
+                        priceEl.className = 'item-price';
+                        priceEl.textContent = price > 0 ? `${currencySymbol}${formatNumber(itemTotal)}` : '-';
+                        row.appendChild(priceEl);
+
+                        itemsContainer.appendChild(row);
+                    });
+
+                    // Configure Shutter Controls
+                    const shutterControls = document.getElementById('shutter-controls');
+                    const shutterBadge = document.getElementById('shutter-badge');
+                    const shutterLabel = document.getElementById('shutter-label');
+                    const shutterIcon = document.getElementById('shutter-icon');
+
+                    if (items.length > PREVIEW_LIMIT) {
+                        const remainingCount = items.length - PREVIEW_LIMIT;
+                        shutterBadge.textContent = `+ ${remainingCount} more item${remainingCount === 1 ? '' : 's'}`;
+                        shutterBadge.classList.remove('hidden');
+                        shutterLabel.textContent = `SHOW ALL ${items.length} ITEMS`;
+                        shutterIcon.textContent = '▼';
+                        shutterControls.classList.remove('hidden');
+                        isExpanded = false;
+                    } else {
+                        shutterControls.classList.add('hidden');
+                    }
+                }
+
+                // Show Content
+                document.getElementById('loading-state').classList.add('hidden');
+                document.getElementById('content-state').classList.remove('hidden');
+            }
+
+            // 6. Fetch Shared List Data from Firestore REST API
+            const firestoreUrl = `https://firestore.googleapis.com/v1/projects/buylists-99137/databases/(default)/documents/shared_lists/${encodeURIComponent(currentListId)}`;
+
+            fetch(firestoreUrl)
+                .then(response => {
+                    if (response.status === 404) {
+                        throw new Error("NOT_FOUND");
+                    }
+                    if (!response.ok) {
+                        throw new Error("NETWORK_ERROR");
+                    }
+                    return response.json();
+                })
+                .then(doc => {
+                    const parsed = parseFirestoreDoc(doc);
+                    if (!parsed) {
+                        showError("Invalid Payload", "The list data format is unreadable.");
+                        return;
+                    }
+                    if (parsed.shareStatus === 'REVOKED') {
+                        showError("Share Revoked", "The owner has stopped sharing this list.");
+                        return;
+                    }
+                    renderList(parsed);
+                })
+                .catch(err => {
+                    if (err.message === "NOT_FOUND") {
+                        showError("List Not Found", "This shared list link may have expired or been removed.");
+                    } else {
+                        showError("Connection Error", "Unable to load list. Please check your internet connection.");
+                    }
+                });
+        })();
+
+        // Global Interactive Shutter Toggle Handler
+        function toggleShutter() {
+            isExpanded = !isExpanded;
+            const shutterItems = document.querySelectorAll('.shutter-item');
+            const shutterBadge = document.getElementById('shutter-badge');
+            const shutterLabel = document.getElementById('shutter-label');
+            const shutterIcon = document.getElementById('shutter-icon');
+            const totalItems = document.querySelectorAll('.item-row').length;
+
+            shutterItems.forEach(item => {
+                if (isExpanded) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+
+            if (isExpanded) {
+                shutterBadge.classList.add('hidden');
+                shutterLabel.textContent = 'HIDE ITEMS';
+                shutterIcon.textContent = '▲';
+            } else {
+                const remainingCount = totalItems - PREVIEW_LIMIT;
+                shutterBadge.textContent = `+ ${remainingCount} more item${remainingCount === 1 ? '' : 's'}`;
+                shutterBadge.classList.remove('hidden');
+                shutterLabel.textContent = `SHOW ALL ${totalItems} ITEMS`;
+                shutterIcon.textContent = '▼';
+            }
+        }
+
+        // Global Phase 1C Action Button Handlers (Updated in Phase 2B for Sender Currency)
+        function copyListToClipboard() {
+            if (!rawListDataForCopy) return;
+
+            const category = rawListDataForCopy.name || rawListDataForCopy.category || "Shared List";
+            const items = Array.isArray(rawListDataForCopy.items) ? rawListDataForCopy.items : [];
+            const currencySymbol = getCurrencySymbol(rawListDataForCopy.currencyCode);
+
+            let textLines = [];
+            textLines.push(`🛒 ${category}\n`);
+
+            let calculatedTotal = 0;
+            items.forEach(item => {
+                const name = item.name || item.title || 'Item';
+                const qty = parseFloat(item.quantity || item.qty) || 1;
+                const unit = item.unit ? ` ${item.unit}` : '';
+                const price = parseFloat(item.price) || 0;
+                const itemTotal = price * qty;
+                calculatedTotal += itemTotal;
+
+                if (price > 0) {
+                    const priceFormatted = window.formatNumber ? window.formatNumber(itemTotal) : itemTotal;
+                    textLines.push(`• ${name} — ${qty}${unit} — ${currencySymbol}${priceFormatted}`);
+                } else {
+                    textLines.push(`• ${name} — ${qty}${unit}`);
+                }
+            });
+
+            if (calculatedTotal > 0) {
+                const totalFormatted = window.formatNumber ? window.formatNumber(calculatedTotal) : calculatedTotal;
+                textLines.push(`\nEstimated Total: ${currencySymbol}${totalFormatted}`);
+            }
+            textLines.push(`Shared via BuyLists`);
+
+            const fullText = textLines.join('\n');
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(fullText).then(() => {
+                    showToast("✓ Copied list to clipboard!");
+                }).catch(() => {
+                    fallbackCopyText(fullText);
+                });
+            } else {
+                fallbackCopyText(fullText);
+            }
+        }
+
+        function fallbackCopyText(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast("✓ Copied list to clipboard!");
+            } catch (_) {
+                showToast("Unable to copy automatically.");
+            }
+            document.body.removeChild(textarea);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            if (toast) {
+                toast.textContent = message;
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2200);
+            }
+        }
+
+        function openInApp() {
+            if (currentListId) {
+                window.location.href = `buylists://list/${currentListId}`;
+            }
+        }
+
+        function getAppStore() {
+            window.open("https://play.google.com/store/apps/details?id=com.kukholapps.buylists", "_blank");
+        }
+    </script>
 </body>
+
 </html>
